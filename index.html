@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulsating Heart Animation</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000000; /* Updated background to dark */
+            overflow: hidden; /* Hide overflow to prevent scrolling */
+            position: relative; /* Ensure position context for animations */
+        }
+        
+        .heart {
+            width: 120px; /* Increase the size of the heart */
+            height: 120px; /* Increase the size of the heart */
+            background: #f20044;
+            position: absolute;
+            top: calc(50% - 60px); /* Center the heart vertically */
+            left: calc(50% - 60px); /* Center the heart horizontally */
+            transform: rotate(-45deg) scale(0.5); /* Initial size */
+            box-shadow: -20px 20px 90px #f20044; /* Increased shadow */
+            animation: heart 1.5s ease-in-out infinite alternate; /* Updated animation */
+            cursor: pointer; /* Add cursor pointer for indicating clickability */
+            z-index: 2; /* Ensure heart is in front of the letter */
+            border-radius: 20%; /* Make the heart circular */
+        }
+        
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            height: 120px; /* Increase the size of the heart */
+            width: 120px; /* Increase the size of the heart */
+            background: #f20044;
+            border-radius: 50px;
+        }
+        
+        .heart:before {
+            top: -50%;
+        }
+        
+        .heart:after {
+            right: -50%;
+        }
+        
+        .pictures {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translateX(-50%);
+            z-index: 1; /* Ensure pictures are behind the heart */
+            opacity: 0; /* Initially hidden */
+        }
+        
+        .picture {
+          width: 200px; /* Set the width of the pictures to match the heart */
+          height: 220px; /* Maintain aspect ratio */
+          margin: 10px; /* Add margin between pictures */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+          overflow: hidden; /* Hide overflow to keep the frame within the circle */
+          border: 2px solid #f8d0e4; /* Add a pink border as the frame */
+          border-radius: 10px;
+      }
+      
+        .picture img {
+            width: 100%; /* Ensure the image fills the container */
+            height: 100%; /* Maintain aspect ratio */
+        }
+        
+        .picture:hover {
+
+            transform: scale(1.05); /* Scale up on hover */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add shadow effect */
+        }
+        
+        @keyframes heart {
+            0% {
+              transform: rotate(-45deg) scale(0.5);
+            }
+            100% {
+              transform: rotate(-45deg) scale(0.6);
+            }
+        }
+
+        @keyframes imageAnimation {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes showPictures {
+            0% {
+              bottom: -200px;
+              opacity: 0;
+            }
+            100% {
+              bottom: 30px; /* Bring pictures up */
+              opacity: 1; /* Make pictures visible */
+            }
+        }
+        
+        @keyframes hidePictures {
+            0% {
+              bottom: 30px; /* Keep pictures up */
+              opacity: 1; /* Keep pictures visible */
+            }
+            100% {
+              bottom: -200px; /* Bring pictures down */
+              opacity: 0; /* Hide pictures */
+            }
+        }
+
+        .text {
+            position: absolute;
+            top: 30%;
+            left: 32%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            text-align: center;
+            color: #ff69b4; /* Set text color to pink */
+            font-family: 'Comic Sans MS', cursive; /* Cute font */
+            z-index: 3; /* Ensure text is in front */
+            animation: cuteText 1.5s ease-in-out infinite alternate; /* Add cute text animation */
+        }
+
+        .background-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind everything */
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .background-hearts span {
+          position: absolute;
+          display: block;
+          background-color: #ff5959;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          animation: animate 30s linear infinite, glowing 1.5s ease-in-out infinite alternate; /* Add glowing effect */
+          transform-origin: center;
+          opacity: 0; /* Initially hidden */
+          clip-path: path("M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z");
+      }
+      
+      /* Glowing effect */
+      @keyframes glowing {
+          0% {
+              box-shadow: 0 0 10px #ff5959, 0 0 20px #ff5959, 0 0 30px #ff5959, 0 0 40px #ff5959, 0 0 50px #ff5959, 0 0 60px #ff5959, 0 0 70px #ff5959;
+          }
+          50% {
+              box-shadow: 0 0 20px #ff5959, 0 0 30px #ff5959, 0 0 40px #ff5959, 0 0 50px #ff5959, 0 0 60px #ff5959, 0 0 70px #ff5959, 0 0 80px #ff5959;
+          }
+          100% {
+              box-shadow: 0 0 10px #ff5959, 0 0 20px #ff5959, 0 0 30px #ff5959, 0 0 40px #ff5959, 0 0 50px #ff5959, 0 0 60px #ff5959, 0 0 70px #ff5959;
+          }
+      }
+      
+      /* Cute text animation */
+      @keyframes cuteText {
+          0% {
+              transform: scale(1);
+          }
+          100% {
+              transform: scale(1.1);
+          }
+      }
+        
+        /* Set the positions and delay for each heart */
+        .background-hearts span:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
+        .background-hearts span:nth-child(2) { top: 50%; left: 80%; animation-delay: 2s; }
+        .background-hearts span:nth-child(3) { top: 80%; left: 60%; animation-delay: 1s; }
+        .background-hearts span:nth-child(4) { top: 30%; left: 40%; animation-delay: 3s; }
+        /* Repeat the pattern for additional hearts */
+        .background-hearts span:nth-child(5) { top: 25%; left: 65%; animation-delay: 4s; }
+        .background-hearts span:nth-child(6) { top: 70%; left: 30%; animation-delay: 5s; }
+        .background-hearts span:nth-child(7) { top: 40%; left: 90%; animation-delay: 6s; }
+        .background-hearts span:nth-child(8) { top: 60%; left: 20%; animation-delay: 7s; }
+        .background-hearts span:nth-child(9) { top: 10%; left: 50%; animation-delay: 8s; }
+        .background-hearts span:nth-child(10) { top: 45%; left: 75%; animation-delay: 9s; }
+        .background-hearts span:nth-child(11) { top: 85%; left: 35%; animation-delay: 10s; }
+        .background-hearts span:nth-child(12) { top: 20%; left: 85%; animation-delay: 11s; }
+        .background-hearts span:nth-child(13) { top: 75%; left: 15%; animation-delay: 12s; }
+        .background-hearts span:nth-child(14) { top: 35%; left: 55%; animation-delay: 13s; }
+        .background-hearts span:nth-child(15) { top: 90%; left: 70%; animation-delay: 14s; }
+        .background-hearts span:nth-child(16) { top: 55%; left: 25%; animation-delay: 15s; }
+        .background-hearts span:nth-child(17) { top: 10%; left: 80%; animation-delay: 16s; }
+        .background-hearts span:nth-child(18) { top: 65%; left: 45%; animation-delay: 17s; }
+        .background-hearts span:nth-child(19) { top: 30%; left: 70%; animation-delay: 18s; }
+        .background-hearts span:nth-child(20) { top: 80%; left: 10%; animation-delay: 19s; }
+        .background-hearts span:nth-child(21) { top: 50%; left: 30%; animation-delay: 20s; }
+        .background-hearts span:nth-child(22) { top: 15%; left: 65%; animation-delay: 21s; }
+        .background-hearts span:nth-child(23) { top: 70%; left: 90%; animation-delay: 22s; }
+        .background-hearts span:nth-child(24) { top: 40%; left: 20%; animation-delay: 23s; }
+        .background-hearts span:nth-child(25) { top: 85%; left: 50%; animation-delay: 24s; }
+        .background-hearts span:nth-child(26) { top: 25%; left: 75%; animation-delay: 25s; }
+        .background-hearts span:nth-child(27) { top: 60%; left: 35%; animation-delay: 26s; }
+        .background-hearts span:nth-child(28) { top: 5%; left: 15%; animation-delay: 27s; }
+        .background-hearts span:nth-child(29) { top: 45%; left: 55%; animation-delay: 28s; }
+        .background-hearts span:nth-child(30) { top: 90%; left: 80%; animation-delay: 29s; }
+
+        @keyframes animate {
+            0% {
+              transform: translateY(0) scale(1);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(-2000px) scale(0.1);
+              opacity: 0;
+            }
+        }
+
+        .button-container {
+          position: absolute;
+          bottom: 20px; /* Adjust the distance from the bottom */
+          left: 50%;
+          transform: translateX(-50%);
+          text-align: center;
+        }
+        
+        .button {
+          padding: 10px 20px;
+          background-color: #f20044;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+          background-color: #ff69b4; /* Change color on hover */
+        }
+        
+        .button-text {
+          display: block;
+          margin-top: 5px;
+          color: white;
+          font-size: 14px;
+        }
+
+        /* Media Query for smaller screens */
+        @media screen and (max-width: 768px) {
+          .heart {
+              width: 100px; /* Decrease heart size */
+              height: 100px; /* Decrease heart size */
+          }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            height: 100px; /* Increase the size of the heart */
+            width: 100px; /* Increase the size of the heart */
+            background: #f20044;
+            border-radius: 50px;
+        }
+        
+        .heart:before {
+            top: -45%;
+        }
+        
+        .heart:after {
+            right: -45%;
+        }
+
+          .text {
+              font-size: 20px; /* Decrease text size */
+              top: 30%;
+              left: 18%; /* Adjust text position */
+          }
+
+          .pictures {
+            display: none;
+            position: absolute;
+            left: 20%;
+            top: 45%;
+            transform: translateX(-10%);
+            z-index: 1; /* Ensure pictures are behind the heart */
+            opacity: 0; /* Initially hidden */
+        }
+
+          .picture {
+            width: 120px; /* Set the width of the pictures to match the heart */
+            height: 130px; /* Maintain aspect ratio */
+            margin: 3px; /* Add margin between pictures */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+
+            border: 2px solid #f8d0e4; /* Add a pink border as the frame */
+            border-radius: 10px;
+          }
+        
+          
+          .button-container {
+            position: absolute;
+            bottom: 10px; /* Adjust the distance from the bottom */
+            left: 30%;
+            top: 70%;
+            transform: translateX(-20%);
+            text-align: center;
+          }
+
+          .button {
+            padding: 10px 20px;
+        }
+      }
+    </style>
+</head>
+
+<body>
+    <div class="heart" id="heart"></div>
+    <div class="text" id="text" style="display: none;"> Happy Heart's Day, Micah My Love!</div>
+    <div class="pictures" id="pictures">
+      <!-- Wrap the second heart inside an anchor tag --> 
+        <img class="picture" src="images/1.jpg" alt="Image 1">
+        <img class="picture" src="images/2.jpg" alt="Image 2">
+        <img class="picture" src="images/3.jpg" alt="Image 3">
+        <div class="button-container">
+          <button class="button" onclick="window.location.href='flower.html'">Don't Click! You will see My Big D</button>
+        </div>
+    </div>
+
+    <!-- Background Hearts -->
+    <div class="background-hearts">
+        <!-- Add 30 spans for background hearts -->
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <script>
+        document.getElementById('heart').addEventListener('click', function() {
+            var pictures = document.getElementById('pictures');
+            var heart = document.getElementById('heart');
+            var text = document.getElementById('text');
+            
+            // Toggle the display of the pictures and text
+            if (pictures.style.display === 'block') {
+              // If the pictures are visible, hide them
+              pictures.style.animation = 'hidePictures 1.5s ease forwards';
+              heart.style.animation = ''; // Stop heart animation
+              heart.style.top = 'calc(50% - 60px)'; // Move heart back to the center
+              text.style.display = 'none'; // Hide the text
+              setTimeout(() => {
+                pictures.style.display = 'none';
+              }, 500);
+            } else {
+              // Show the pictures and text
+              pictures.style.display = 'block';
+              pictures.style.animation = 'showPictures 0.5s ease forwards';
+              heart.style.animation = 'heart .5s ease-in-out infinite alternate'; // Start heart animation
+              heart.style.top = 'calc(20% - 60px)'; // Move heart to the top
+              text.style.display = 'block'; // Show the text
+            }
+          });
+    </script>
+</body>
+</html>
